@@ -189,6 +189,9 @@ class JobNotifications
 		$headers .= "MIME-Version: 1.0\n";
 		$headers .= "Content-Type: text/html; charset=UTF-8\n";
 
+        // Add additional headers or modify existing headers
+        apply_filters('job-postings/email_headers', $headers);
+
 		return $headers;
 	}
 
