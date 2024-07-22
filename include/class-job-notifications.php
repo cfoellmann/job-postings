@@ -175,14 +175,17 @@ class JobNotifications
 		$contact_email = explode(',', $contact_email);
 		$contact_email = $contact_email[0];
 
-		$from_email	= apply_filters('job-postings/from_email', $contact_email, $job_id);
-		$from_name 	= apply_filters('job-postings/from_name', $name, $job_id);
+		$from_email	= apply_filters('job-postings/from_email', get_bloginfo('admin_email'), $job_id);
+		$from_name 	= apply_filters('job-postings/from_name', get_bloginfo('name'), $job_id);
+
+        $reply_to_email   = apply_filters('job-postings/reply_to', $contact_email, $job_id);
+        $reply_to_name    = apply_filters('job-postings/reply_to_name', $name, $job_id);
 
 		$headers = "From: ".$from_name." < ".$from_email." >\n";
-		$headers .= "X-Sender: ".$contact_email."\n";
+		$headers .= "X-Sender: ".$from_email."\n";
 		$headers .= 'X-Mailer: PHP/' . phpversion();
 		$headers .= "X-Priority: 1\n"; // Urgent message!
-		$headers .= "Reply-To: ".$from_name." < ".$from_email." >\n";
+		$headers .= "Reply-To: ".$reply_to_name." < ".$reply_to_email." >\n";
 		$headers .= "MIME-Version: 1.0\n";
 		$headers .= "Content-Type: text/html; charset=UTF-8\n";
 
