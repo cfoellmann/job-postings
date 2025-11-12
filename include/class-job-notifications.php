@@ -181,16 +181,18 @@ class JobNotifications
         $reply_to_email   = apply_filters('job-postings/reply_to', $contact_email, $job_id);
         $reply_to_name    = apply_filters('job-postings/reply_to_name', $name, $job_id);
 
-		$headers = "From: ".$from_name." < ".$from_email." >\n";
+		$headers = "From: ".$from_email."\n";
 		$headers .= "X-Sender: ".$from_email."\n";
-		$headers .= 'X-Mailer: PHP/' . phpversion();
+		$headers .= 'X-Mailer: PHP/' . phpversion()."\n";
 		$headers .= "X-Priority: 1\n"; // Urgent message!
-		$headers .= "Reply-To: ".$reply_to_name." < ".$reply_to_email." >\n";
+		$headers .= "Reply-To: ".urlencode($reply_to_name)." < ".$reply_to_email." >\n";
 		$headers .= "MIME-Version: 1.0\n";
 		$headers .= "Content-Type: text/html; charset=UTF-8\n";
 
+//        $headers .= "X-PM-Message-Stream: karriere\n";
+
         // Add additional headers or modify existing headers
-        apply_filters('job-postings/email_headers', $headers);
+        $headers = apply_filters('job-postings/email_headers', $headers);
 
 		return $headers;
 	}
